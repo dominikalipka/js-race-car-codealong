@@ -16,3 +16,8 @@ body {
     background-color:plum;
     position: absolute;
 }
+
+.obstacle {
+    position: absolute;
+    background-color: salmon;
+}
