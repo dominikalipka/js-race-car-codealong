@@ -1,23 +1,38 @@
 body {
     background-color:lightblue;
     text-align: center;
+    font-family: monospace;
+}
+
+h1 {
+    font-size: 50px;
+}
+
+h2 {
+    font-size: 40px;
 }
 
 #game {
     position: relative;
-    width: 60vw;
-    height: 90vh;
+    width: 30vw;
+    height: 70vh;
     outline: blueviolet 1px solid;
     margin: 5vh auto;
-    background-color:rgb(132, 189, 186);
+    background-image: url(/road.png);
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .car {
-    background-color:plum;
+    background-image: url(/car.png);
+    background-repeat: no-repeat;
+    background-size: cover;
     position: absolute;
 }
 
 .obstacle {
     position: absolute;
-    background-color: salmon;
+    background-image: url(/obstacle.png);
+        background-repeat: no-repeat;
+        background-size: cover;
 }

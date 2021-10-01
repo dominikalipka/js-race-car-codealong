@@ -2,30 +2,62 @@ class Game {
     constructor () {
         this.currentTime = 0;
         this.car = null;
+        this.obstacleArr = [];
+        this.scoreElm = document.getElementById('score');
     }
+
+    countScore() {
+        let score = 0;
+        setInterval(() => {
+                score++;
+                this.scoreElm.innerHTML = 'Score:  ' + score;
+            }, 1000);
+        }
+        
     startGame () {
         this.car = new Car();
         this.car.create();
         this.addEventListeners();
-        
-        let obstaclesArr = [];
 
         setInterval( () => {
-            this.obstacle = new Obstacle();
-            this.obstacle.create();
-            this.obstacle.draw();
-            obstaclesArr.push(this.obstacle);
-            console.log(obstaclesArr);
-        }, 6000)
+
+            //background movement
+            
+
+            //update timer
+            this.currentTime++;
+            
+            this.obstacleArr.forEach( (obstacle) => {
+                //update obstacle positions
+                obstacle.moveDown();
+                obstacle.draw();
+                
+                if(obstacle.y === 100) {
+                    //collision detection
+                    if(this.car.x < obstacle.x + obstacle.width && this.car.x + this.car.width > obstacle.x &&
+                    this.car.y < obstacle.y + obstacle.height &&
+                    this.car.y + this.car.height > obstacle.y){
+                        alert("game over!");
+                        this.scoreElm.innerHTML = 'Score:  ' + 0;
+                    }
+                } else if(obstacle.y > 100) {
+                    //remove obstacles off the board
+                    obstacle.remove(); //remove from the DOM
+                    this.obstacleArr.shift(); //remove from our array of obstacles
+                } 
+
+            });
 
 
+            //create new obstacles
+            if(this.currentTime % 8 === 0){
+                const newObstacle = new Obstacle();
+                newObstacle.create();
+                this.obstacleArr.push(newObstacle);
+            }
+        }, 400);
 
-        setInterval(() => {
-            obstaclesArr.forEach((element) => {
-                element.moveDown();
-                element.draw();
-            } )
-        }, 1000)
+    
     }
 
 
@@ -45,23 +77,23 @@ class Game {
 
 
 class Thing {
-    constructor(className) {
-        this.domElm =  null;
+    constructor(){
+        this.domElm = null;
+        this.gameElm = document.getElementById("game");
     }
-
-    create() {
-        this.domElm = document.createElement('div');
+    create(){
+        this.domElm = document.createElement("div");
         this.domElm.className = this.className;
-        const gameElm = document.getElementById('game');
-        gameElm.appendChild(this.domElm);
-        
+        this.gameElm.appendChild(this.domElm);
     }
-
-    draw() {
-        this.domElm.style.width = this.width + '%';
-        this.domElm.style.height = this.height + '%'
-        this.domElm.style.left = this.x + '%'
-        this.domElm.style.top = this.y + '%'
+    remove(){
+        this.gameElm.removeChild(this.domElm);
+    }
+    draw(){
+        this.domElm.style.width = this.width + "%";
+        this.domElm.style.height = this.height + "%";
+        this.domElm.style.left = this.x + "%";
+        this.domElm.style.top = this.y + "%";
     }
 }
 
@@ -69,27 +101,28 @@ class Car extends Thing {
     constructor() {
         super();
         this.x = 50;
-        this.y = 100;
-        this.width = 10;
-        this.height = 20;
+        this.y = 100 ;
+        this.width = 15;
+        this.height = 22;
         this.className = 'car';
     }
     moveLeft () {
-        this.x--;
+        this.x -=2;
     }
 
     moveRight() {
-        this.x++;
+        this.x += 2;
     }
 }
 
 class Obstacle extends Thing {
     constructor() {
         super();
-        this.x = Math.random() * 100;
+
+        this.width = 30;
+        this.height = 5;
+        this.x = Math.floor(Math.random() * (100 - this.width + 1));
         this.y = 0;
-        this.width = 10;
-        this.height = 10;
         this.className = 'obstacle'
     }
     moveDown() {
