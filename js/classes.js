@@ -6,13 +6,13 @@ class Game {
         this.scoreElm = document.getElementById('score');
     }
 
-    // countScore() {
-    //     let score = 0;
-    //     setInterval(() => {
-    //             score += 10;
-    //             this.scoreElm.innerHTML = 'Score:  ' + score;
-    //         }, 2000);
-    //     }
+    countScore() {
+        let score = 0;
+        setInterval(() => {
+                score += 10;
+                this.scoreElm.innerHTML = 'Score:  ' + score;
+            }, 2000);
+        }
         
     startGame () {
         this.car = new Car();
