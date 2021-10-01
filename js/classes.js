@@ -6,13 +6,13 @@ class Game {
         this.scoreElm = document.getElementById('score');
     }
 
-    countScore() {
-        let score = 0;
-        setInterval(() => {
-                score++;
-                this.scoreElm.innerHTML = 'Score:  ' + score;
-            }, 1000);
-        }
+    // countScore() {
+    //     let score = 0;
+    //     setInterval(() => {
+    //             score += 10;
+    //             this.scoreElm.innerHTML = 'Score:  ' + score;
+    //         }, 2000);
+    //     }
         
     startGame () {
         this.car = new Car();
@@ -21,9 +21,7 @@ class Game {
 
         setInterval( () => {
 
-            //background movement
             
-
             //update timer
             this.currentTime++;
             
@@ -38,19 +36,20 @@ class Game {
                     this.car.y < obstacle.y + obstacle.height &&
                     this.car.y + this.car.height > obstacle.y){
                         alert("game over!");
-                        this.scoreElm.innerHTML = 'Score:  ' + 0;
+                        return this.scoreElm.innerHTML = 'Score:  ' + 0;
                     }
                 } else if(obstacle.y > 100) {
                     //remove obstacles off the board
                     obstacle.remove(); //remove from the DOM
                     this.obstacleArr.shift(); //remove from our array of obstacles
+                
                 } 
 
             });
 
 
             //create new obstacles
-            if(this.currentTime % 8 === 0){
+            if(this.currentTime % 5 === 0){
                 const newObstacle = new Obstacle();
                 newObstacle.create();
                 this.obstacleArr.push(newObstacle);
@@ -119,7 +118,7 @@ class Obstacle extends Thing {
     constructor() {
         super();
 
-        this.width = 30;
+        this.width = Math.floor(Math.random() * (20) + 10);;
         this.height = 5;
         this.x = Math.floor(Math.random() * (100 - this.width + 1));
         this.y = 0;

@@ -33,6 +33,6 @@ h2 {
 .obstacle {
     position: absolute;
     background-image: url(/obstacle.png);
-        background-repeat: no-repeat;
-        background-size: cover;
+        background-repeat: round;
+        background-size:cover;
 }
